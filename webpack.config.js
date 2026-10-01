@@ -12,11 +12,31 @@ const __dirname = path.dirname(__filename);
 const requireCjs = createRequire(import.meta.url);
 const { AssertNoBareRequirePlugin } = requireCjs('./tools/assert-no-bare-require.cjs');
 
+const STAGING_APP_ID = 'com.zui.webos.youtube.staging';
+const STAGING_APP_TITLE = 'ZUI YouTube STAGING';
+
+const stagingAppInfoTransform = {
+  transformer(content) {
+    const appInfo = JSON.parse(content.toString());
+    appInfo.id = STAGING_APP_ID;
+    appInfo.title = STAGING_APP_TITLE;
+    return `${JSON.stringify(appInfo, null, 2)}\n`;
+  }
+};
+
 /** @type {(env: Record<string, string>) => (import('webpack').Configuration)[]} */
 const makeConfig = (env) => {
   const isModern = env && env.modern;
+  const isStaging = !!(env && env.staging);
   // Dev-only instrumentation; see src/perf_mon.js. Off unless `--env perf`.
   const withPerfMon = !!(env && env.perf);
+
+  const assetPatterns = isStaging
+    ? [
+        { context: 'assets', from: '**/*', globOptions: { ignore: ['**/appinfo.json'] } },
+        { from: 'assets/appinfo.json', to: 'appinfo.json', transform: stagingAppInfoTransform }
+      ]
+    : [{ context: 'assets', from: '**/*' }];
 
   return [
     {
@@ -164,7 +184,7 @@ const makeConfig = (env) => {
         new AssertNoBareRequirePlugin(),
         new CopyPlugin({
           patterns: [
-            { context: 'assets', from: '**/*' },
+            ...assetPatterns,
             { context: 'src', from: 'index.html' }
           ]
         }),
