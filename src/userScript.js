@@ -5,6 +5,8 @@ import './perf_mon.js';
 import 'whatwg-fetch';
 import './polyfills.js';
 import './domrect-polyfill';
+// Keep YTTR below Extended's optional hooks so disabling them restores YTTR.
+import './turkish-captions-poc.js';
 import './adblock.js';
 import './hooks/json-stringify';
 import './force-codec.js';
