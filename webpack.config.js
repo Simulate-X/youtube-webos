@@ -16,6 +16,7 @@ const STAGING_APP_ID = 'com.zui.webos.youtube.staging';
 const STAGING_APP_TITLE = 'ZUI YouTube STAGING';
 
 const stagingAppInfoTransform = {
+  /** @param {Buffer} content */
   transformer(content) {
     const appInfo = JSON.parse(content.toString());
     appInfo.id = STAGING_APP_ID;
@@ -26,7 +27,7 @@ const stagingAppInfoTransform = {
 
 /** @type {(env: Record<string, string>) => (import('webpack').Configuration)[]} */
 const makeConfig = (env) => {
-  const isModern = env && env.modern;
+  const isModern = !!(env && env.modern);
   const isStaging = !!(env && env.staging);
   // Dev-only instrumentation; see src/perf_mon.js. Off unless `--env perf`.
   const withPerfMon = !!(env && env.perf);

@@ -15,6 +15,7 @@
  * a file is the fix.
  */
 class AssertNoBareRequirePlugin {
+  /** @param {import('webpack').Compiler} compiler */
   apply(compiler) {
     compiler.hooks.emit.tap('AssertNoBareRequire', (compilation) => {
       // `__webpack_require__`, `n.require`, `.require(` etc. are fine; only a

@@ -125,7 +125,10 @@ export class FetchRegistry extends CustomEventTarget<EventMap> {
       throw new TypeError('Failed to fetch');
     }
 
-    const res = await this.#originalFetch(resource, init);
+    const res = await this.#originalFetch(
+      resource as Parameters<typeof fetch>[0],
+      init
+    );
 
     if (window.__ytaf_debug__) {
       console.debug(`Response ${this.#fetchCount}:`, res);

@@ -1,14 +1,14 @@
-type TypedEventPartial<T extends EventTarget, U> = {
+type TypedEventPartial<T, U> = {
   readonly currentTarget: T | null;
   readonly type: U;
 };
 
-type BaseTypedEvent<T extends EventTarget, E extends Event, U> = E &
+type BaseTypedEvent<T, E extends Event, U> = E &
   TypedEventPartial<T, U>;
 
 export type TypedCustomEvent<
   D,
-  T extends EventTarget,
+  T,
   U = string
 > = BaseTypedEvent<T, CustomEvent<D>, U>;
 
@@ -29,7 +29,7 @@ type EventMapValue<
 > = T[K] extends Event ? T[K] : never;
 
 interface EventListener<
-  Self extends EventTarget,
+  Self,
   T extends EmptyEventMap,
   EventName extends keyof T
 > {
@@ -37,7 +37,7 @@ interface EventListener<
 }
 
 interface EventListenerObject<
-  Self extends EventTarget,
+  Self,
   T extends EmptyEventMap,
   EventName extends keyof T
 > {
@@ -45,7 +45,7 @@ interface EventListenerObject<
 }
 
 type EventListenerArg<
-  Self extends EventTarget,
+  Self,
   T extends EmptyEventMap,
   EventName extends keyof T
 > =
