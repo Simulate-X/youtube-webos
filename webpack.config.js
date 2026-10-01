@@ -32,6 +32,7 @@ const makeConfig = (env) => {
       resolve: {
         extensions: ['.mjs', '.cjs', '.js', '.json', '.ts'],
         alias: {
+          ...(!env?.yttr ? { [path.resolve(__dirname, 'src/turkish-captions-poc.js')]: false } : {}),
           ...(withPerfMon
             ? {}
             : { [path.resolve(__dirname, 'src/perf_mon.js')]: false }),
