@@ -14,6 +14,8 @@ const { AssertNoBareRequirePlugin } = requireCjs('./tools/assert-no-bare-require
 
 const STAGING_APP_ID = 'com.zui.webos.youtube.staging';
 const STAGING_APP_TITLE = 'ZUI YouTube STAGING';
+// Acceptance overlay only: production package/appinfo version stays unchanged.
+const STAGING_APP_VERSION = '0.8.5';
 
 const stagingAppInfoTransform = {
   /** @param {Buffer} content */
@@ -21,6 +23,7 @@ const stagingAppInfoTransform = {
     const appInfo = JSON.parse(content.toString());
     appInfo.id = STAGING_APP_ID;
     appInfo.title = STAGING_APP_TITLE;
+    appInfo.version = STAGING_APP_VERSION;
     return `${JSON.stringify(appInfo, null, 2)}\n`;
   }
 };
